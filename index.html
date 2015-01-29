@@ -1,28 +1,36 @@
 <!DOCTYPE html>
-<html ng-app="myNoteApp">
+<html ng-app>
 <head>
-<!-- <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script> -->
-<script type="text/javascript" src="script/angular.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.1.5/angular.min.js"></script>
+<link href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
 
+<meta charset=utf-8 />
+<title>Angular JS Sticky Notes</title>
 </head>
+<body ng-controller="ctrl">
+  <h2>{{rows.length}} Sticky note{{plural(rows)}}</h2>
+  <form class="form-horizontal">
+    <span ng-class="{'input-append':addName}">
+        <input id="add" type="text" placeholder="Enter note here" ng-model="addName" ng-change="addTemp()"/>
+        <input type="submit" class="btn btn-primary" ng-click="addRow()" ng-show="addName" value="+ add"/>
+    </span>
 
-<body>
-
-<div ng-controller="myController" style="width: 24%;height: 20%;background-color: yellow;margin-left: 10%">
-	<p >Vishu sticky note
-		<p><textarea rows="10" cols="40" ng-model="message"></textarea></p>
-		<p>
-		<button ng-click="save()">save</button>
-		<button ng-click="clear()">clear</button>
-		</p>
-		<p>No of characters left<span ng-bind="left()"></span></p>
-	</p>
-
-</div>
- 
-
-<script type="text/javascript" src="module/myApp.js"></script>
-<script type="text/javascript" src="controller/myController.js"></script>
-
+  </form>
+  <table  class="table table-striped">
+    <tr ng-repeat="row in rows | filter : search"  ng-class="{'muted':isTemp($index)}">
+      <td>{{$index+1}}</td>
+      <td>{{row}}</td>
+      <td>
+        <button class="btn btn-danger btn-mini" ng-click="deleteRow(row)" ng-hide="isTemp($index)"><i class="icon-trash icon-white"></i></button>
+      </td>
+    </tr>
+  </table>
+  
+  <script type="text/javascript" src="module/myApp.js"></script>
+  <script type="text/javascript" src="controller/myController.js"></script>
 </body>
 </html>
+
+
